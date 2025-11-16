@@ -1,0 +1,31 @@
+name: Dependencies Example
+
+on: workflow_dispatch
+
+jobs:
+  dependencies:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5.0.0
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: install dependencies
+        run: npm install 
+
+      - name: verificatie
+        run: ls -alhR
+      
+      # Stap 4: Bundel de code + node_modules in een zip
+      - name: Create zip bundle
+        run: |
+          ZIP_FILE="app_bundle.zip"
+          # Verwijder eventueel oude zip
+          [ -f $ZIP_FILE ] && rm $ZIP_FILE
+          # Zip alle bestanden inclusief node_modules
+          zip -r $ZIP_FILE . -x "*.git*" "*.github/*"
+          echo "Created $ZIP_FILE containing all files and node_modules"
