@@ -29,3 +29,6 @@ jobs:
           # Zip alle bestanden inclusief node_modules
           zip -r $ZIP_FILE . -x "*.git*" "*.github/*"
           echo "Created $ZIP_FILE containing all files and node_modules"
+      - name: Run unit tests
+        run: |
+          npm test -- --reporter=spec
